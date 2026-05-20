@@ -83,7 +83,7 @@ cargo build --release
 # Build a wheel locally (matches what CI produces)
 uv tool install "maturin>=1.7,<2.0"
 maturin build --release
-ls dist/         # py_uv_audit-0.1.1-py3-none-<platform>.whl
+ls dist/         # py_uv_audit-0.1.2-py3-none-<platform>.whl
 
 # Install the wheel into a throwaway venv to test
 uv venv /tmp/v
