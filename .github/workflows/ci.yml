@@ -61,7 +61,6 @@ jobs:
           VENV="${RUNNER_TEMP:-/tmp}/v"
           python -m venv "$VENV"
           if [ -d "$VENV/Scripts" ]; then BIN="$VENV/Scripts"; else BIN="$VENV/bin"; fi
-          "$BIN/pip" install --upgrade pip
           "$BIN/pip" install dist/*.whl
           # Bare invocation prints help and exits 0
           "$BIN/py-uv-audit"
