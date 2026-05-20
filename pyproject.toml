@@ -25,7 +25,6 @@ classifiers = [
 Repository = "https://github.com/shivakharbanda/py-uv-audit"
 "Bug Tracker" = "https://github.com/shivakharbanda/py-uv-audit/issues"
 
-
 [tool.maturin]
 bindings = "bin"
 strip = true
