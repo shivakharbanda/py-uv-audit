@@ -60,8 +60,9 @@ jobs:
           python -m venv "$VENV"
           if [ -d "$VENV/Scripts" ]; then BIN="$VENV/Scripts"; else BIN="$VENV/bin"; fi
           "$BIN/pip" install dist/*.whl
-          # Bare invocation prints help and exits 0
-          "$BIN/py-uv-audit"
+          # `--help` explicitly renders help and exits 0 (bare invocation exits 2
+          # by clap convention for arg_required_else_help)
+          "$BIN/py-uv-audit" --help
           # `audit` against missing files should exit non-zero with the friendly error
           if "$BIN/py-uv-audit" audit --pyproject /nonexistent.toml --lockfile /nonexistent.lock; then
             echo "✗ audit subcommand should have failed on missing input files"
