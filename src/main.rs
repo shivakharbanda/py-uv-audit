@@ -1,4 +1,4 @@
-use clap::{Args, CommandFactory, Parser, Subcommand};
+use clap::{Args, Parser, Subcommand};
 use py_uv_audit::{FixSuggestion, ScanResult};
 use std::path::Path;
 
@@ -199,11 +199,16 @@ fn print_fix_suggestions_cli(suggestions: &[FixSuggestion]) {
     about = "Vulnerability scanner for uv-managed Python projects",
     long_about = "Scans your pyproject.toml + uv.lock against the OSV database \
                   and reports vulnerable packages, with optional dependency tree \
-                  and fix suggestions."
+                  and fix suggestions.",
+    args_conflicts_with_subcommands = true,
+    arg_required_else_help = true
 )]
 struct Cli {
     #[command(subcommand)]
     command: Option<Commands>,
+
+    #[command(flatten)]
+    args: AuditArgs,
 }
 
 #[derive(Subcommand)]
@@ -233,15 +238,11 @@ struct AuditArgs {
 
 fn main() -> anyhow::Result<()> {
     let cli = Cli::parse();
-
-    match cli.command {
-        None => {
-            Cli::command().print_help()?;
-            println!();
-            Ok(())
-        }
-        Some(Commands::Audit(args)) => run_audit(args),
-    }
+    let args = match cli.command {
+        Some(Commands::Audit(args)) => args,
+        None => cli.args,
+    };
+    run_audit(args)
 }
 
 fn run_audit(args: AuditArgs) -> anyhow::Result<()> {

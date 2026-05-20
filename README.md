@@ -26,10 +26,18 @@ Run from the root of a uv-managed Python project (directory with `pyproject.toml
 and `uv.lock`):
 
 ```sh
-py-uv-audit                          # scan and report vulnerabilities
-py-uv-audit --tree                   # print full dependency tree
-py-uv-audit --suggest                # report + remediation suggestions
-py-uv-audit --tree --suggest         # all of the above
+# See what the tool can do (bare invocation prints help)
+py-uv-audit
+py-uv-audit --help
+
+# Run a scan — both forms work and do the same thing
+py-uv-audit audit                       # scan and report vulnerabilities
+py-uv-audit audit --tree                # also print dependency tree
+py-uv-audit audit --suggest             # also print remediation suggestions
+py-uv-audit audit --tree --suggest      # all of the above
+
+# Flags work at the top level too (subcommand optional)
+py-uv-audit --tree --suggest
 py-uv-audit --pyproject ./path/to/pyproject.toml --lockfile ./path/to/uv.lock
 ```
 
@@ -75,7 +83,7 @@ cargo build --release
 # Build a wheel locally (matches what CI produces)
 uv tool install "maturin>=1.7,<2.0"
 maturin build --release
-ls dist/         # py_uv_audit-0.1.0-py3-none-<platform>.whl
+ls dist/         # py_uv_audit-0.1.1-py3-none-<platform>.whl
 
 # Install the wheel into a throwaway venv to test
 uv venv /tmp/v
